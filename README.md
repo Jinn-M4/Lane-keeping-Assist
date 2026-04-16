@@ -1,35 +1,41 @@
 # 🚗 Lane Keeping Assist (LKA) using Pure Pursuit Control
 
-## 📌 Overview
-
-This project implements a **Lane Keeping Assist (LKA)** system using a **kinematic bicycle model** and a **Pure Pursuit controller**.
-The objective is to simulate lateral vehicle control and demonstrate how a vehicle can **converge smoothly to the lane center** from an initial offset.
-
-This project complements Adaptive Cruise Control (ACC) by covering **lateral control**, forming a fundamental component of modern ADAS systems.
+> Implementation of lateral vehicle control for ADAS using a geometric Pure Pursuit controller.
 
 ---
 
-## 🎯 Key Features
+## 📌 Overview
 
-* Kinematic bicycle model for vehicle motion
-* Pure Pursuit algorithm for lateral control
-* Speed-dependent lookahead distance
-* Smooth convergence from large lateral offset
-* Real-time simulation with trajectory visualization
-* GIF-based animation for intuitive understanding
+This project implements a **Lane Keeping Assist (LKA)** system using a **kinematic bicycle model** and a **Pure Pursuit controller**.
+
+The goal is to simulate lateral vehicle control and analyze how a vehicle can **stably converge to the lane center** from a large initial offset.
+This project complements Adaptive Cruise Control (ACC) by addressing **lateral control**, forming a core component of modern ADAS systems.
+
+---
+
+## 🎯 Motivation
+
+Lane keeping is a fundamental function in Advanced Driver Assistance Systems (ADAS).
+Understanding how a controller behaves under different conditions is critical for real-world deployment.
+
+This project focuses on:
+
+* Implementing a **geometric lateral controller**
+* Analyzing **convergence behavior**
+* Investigating **stability vs responsiveness trade-offs**
 
 ---
 
 ## 🧠 System Architecture
 
-```
-Path (Lane Center)
+```text
+Lane Center (Reference Path)
         ↓
 Target Point Selection (Lookahead)
         ↓
 Pure Pursuit Controller (Steering Angle)
         ↓
-Vehicle Model (Bicycle Model)
+Vehicle Model (Kinematic Bicycle Model)
         ↓
 State Update (x, y, yaw)
 ```
@@ -66,47 +72,97 @@ L_d = k \cdot v + L_{min}
 
 ---
 
-## 📊 Results & Insights
+## 📊 Results & Analysis
 
-* The vehicle starts with a **large lateral offset (y = -30 m)**.
-* It gradually converges to the lane center (**y = 0**) over distance.
-* The convergence rate is controlled by:
+* Initial lateral offset: **y = -30 m**
+* Vehicle converges to lane center (**y ≈ 0**) within approximately **120 m**
+* Smooth trajectory achieved without oscillation
+* Stable tracking behavior observed after convergence
 
-  * Lookahead distance tuning
-  * Steering angle constraints
-* A smooth and stable trajectory is achieved without oscillation.
+### Key Insight
 
----
+The convergence behavior is strongly influenced by the lookahead distance:
 
-## 🚀 Key Engineering Decisions
+* Larger lookahead → faster but aggressive convergence
+* Smaller lookahead → smoother but slower response
 
-### 1. Stable Target Point Selection
-
-To prevent sudden jumps in the lookahead point:
-
-* Maintained a **monotonically increasing target index**
-* Limited index increment per timestep
-
-### 2. Smooth Convergence Behavior
-
-* Tuned lookahead parameters to control convergence rate
-* Applied steering angle constraints for realistic motion
-
-### 3. Visualization for Interpretability
-
-* Added trajectory plots and GIF animation
-* Enabled intuitive understanding of controller behavior
+This demonstrates the **trade-off between responsiveness and stability** in geometric controllers.
 
 ---
 
-## 💡 What I Learned
+## Challenges & Solutions
 
-* Implementation of lateral control using geometric methods
-* Trade-offs between responsiveness and stability in control systems
-* Importance of parameter tuning in real-world vehicle dynamics
-* Visualization as a tool for system validation
+### 1. Target Point Jump Issue
+
+**Problem:**
+The lookahead-based target selection caused sudden jumps in the target point, resulting in unrealistic motion in the simulation.
+
+**Solution:**
+
+* Introduced a **monotonically increasing target index**
+* Limited the maximum index increment per timestep
+
+→ Result: Smooth and continuous target movement
 
 ---
 
+### 2. Excessively Fast Convergence
 
+**Problem:**
+The vehicle converged to the lane center too quickly, reducing interpretability of controller behavior.
+
+**Solution:**
+
+* Tuned lookahead parameters (`k`, `L_min`)
+* Applied **steering angle constraints**
+
+→ Result: Gradual and realistic convergence over distance
+
+---
+
+### 3. Visualization Issues
+
+**Problem:**
+Initial plots did not clearly show convergence behavior due to improper scaling.
+
+**Solution:**
+
+* Adjusted axis ranges
+* Added GIF-based animation for dynamic visualization
+
+→ Result: Improved interpretability of system behavior
+
+---
+
+## Implementation Details
+
+* **Language:** Python
+* **Environment:** Google Colab
+* **Libraries:** NumPy, Matplotlib
+
+### Code Structure
+
+* `Vehicle` class → kinematic bicycle model
+* `find_target()` → lookahead-based target selection
+* `pure_pursuit()` → steering computation
+* Simulation loop → state update & logging
+* Visualization → trajectory plot + GIF animation
+
+---
+
+## Limitations
+
+* Pure Pursuit is a **geometric controller** and does not explicitly consider vehicle dynamics
+* Performance may degrade at **high speeds or sharp curvature**
+* No **sensor noise or disturbance** modeling
+* Assumes a perfectly known reference path
+
+---
+
+## 💡 Key Takeaways
+
+* Developed a complete lateral control simulation from scratch
+* Gained insight into controller tuning and system behavior
+* Identified practical limitations of geometric control methods
+* Strengthened ability to analyze and debug dynamic systems
 
