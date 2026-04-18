@@ -1,10 +1,10 @@
-# 🚗 Lane Keeping Assist (LKA) using Pure Pursuit Control
+# Lane Keeping Assist (LKA) using Pure Pursuit Control
 
 > Implementation of lateral vehicle control for ADAS using a geometric Pure Pursuit controller.
 
 ---
 
-## 📌 Overview
+## Overview
 
 This project implements a **Lane Keeping Assist (LKA)** system using a **kinematic bicycle model** and a **Pure Pursuit controller**.
 
@@ -13,7 +13,7 @@ This project complements Adaptive Cruise Control (ACC) by addressing **lateral c
 
 ---
 
-## 🎯 Motivation
+## Motivation
 
 Lane keeping is a fundamental function in Advanced Driver Assistance Systems (ADAS).
 Understanding how a controller behaves under different conditions is critical for real-world deployment.
@@ -26,7 +26,7 @@ This project focuses on:
 
 ---
 
-## 🧠 System Architecture
+## System Architecture
 
 ```text
 Lane Center (Reference Path)
@@ -42,7 +42,7 @@ State Update (x, y, yaw)
 
 ---
 
-## ⚙️ Mathematical Model
+## Mathematical Model
 
 ### Vehicle Model (Kinematic Bicycle Model)
 
@@ -72,7 +72,7 @@ L_d = k \cdot v + L_{min}
 
 ---
 
-## 📊 Results & Analysis
+## Results & Analysis
 
 * Initial lateral offset: **y = -30 m**
 * Vehicle converges to lane center (**y ≈ 0**) within approximately **120 m**
@@ -159,7 +159,7 @@ Initial plots did not clearly show convergence behavior due to improper scaling.
 
 ---
 
-## 💡 Key Takeaways
+## Key Takeaways
 
 * Developed a complete lateral control simulation from scratch
 * Gained insight into controller tuning and system behavior
